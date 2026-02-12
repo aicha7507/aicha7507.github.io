@@ -1,15 +1,13 @@
-/* -----------------------------
+/*
    Reset Default Browser Styles
-------------------------------*/
+*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* -----------------------------
-   Page Layout
-------------------------------*/
+/* Page Layout*/
 body {
     display: flex;
     justify-content: center;
@@ -22,9 +20,7 @@ body {
     background: linear-gradient(135deg, #4b6cb7, #182848);
 }
 
-/* -----------------------------
-   Gameboard Styling
-------------------------------*/
+/* Gameboard Styling*/
 #gameBoard {
     background-color: white;
 
@@ -35,16 +31,13 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-/* -----------------------------
-   Rows (Flex Layout)
-------------------------------*/
+/*Rows (Flex Layout)*/
 .row {
     display: flex;
 }
 
-/* -----------------------------
-   Individual Game Spaces
-------------------------------*/
+/* Individual Game Spaces
+*/
 .gameSpace {
     width: 28vw;
     height: 28vw;
@@ -67,3 +60,4 @@ body {
 
     color: #182848;
 }
+
