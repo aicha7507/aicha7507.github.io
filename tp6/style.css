@@ -1,0 +1,139 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #a0c4ff, #ffffff); /* Sky gradient */
+  color: #333;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+#location {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Current Weather Section */
+#current-weather {
+  text-align: center;
+  padding: 1rem;
+}
+
+.temperature {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff4500; /* warm color for daytime temp */
+}
+
+.condition {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.condition img {
+  width: 50px;
+  height: 50px;
+}
+
+.details {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.wind {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wind-arrow {
+  width: 20px;
+  transform: rotate(-45deg); /* NW wind */
+}
+
+/* Forecast Section */
+#forecast {
+  padding: 1rem;
+}
+
+#forecast h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Horizontal scrolling container for mobile */
+.forecast-container {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+/* Forecast cards */
+.forecast-day {
+  flex: 0 0 140px; /* fixed width per card */
+  background: rgba(224, 247, 250, 0.8);
+  border-radius: 12px;
+  padding: 0.75rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.forecast-day .day {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.forecast-day .temp {
+  color: #ff7f50; /* highlight temp */
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.forecast-day .condition {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.forecast-day .wind {
+  font-size: 0.8rem;
+  color: #555;
+}
+ .forecast-icon {
+  width: 30px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+/* Responsive Desktop View */
+@media (min-width: 600px) {
+  .forecast-container {
+    justify-content: space-around;
+  }
+
+  #current-weather {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+    padding: 2rem;
+  }
+
+  .details {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

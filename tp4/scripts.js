@@ -3,12 +3,17 @@ let turn = "X"; // X starts first
 
 spaces.forEach(space => {
     space.addEventListener("click", () => {
-        // Only fill empty spaces
         if (space.textContent === "") {
             space.textContent = turn;
-
-            // Switch turn
             turn = turn === "X" ? "O" : "X";
         }
     });
+});
+
+// Optional: reset by pressing "r"
+document.addEventListener("keydown", (e) => {
+    if (e.key === "r") {
+        spaces.forEach(space => space.textContent = "");
+        turn = "X";
+    }
 });
