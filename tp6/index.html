@@ -1,29 +1,80 @@
-<div class="forecast-day">
-  <div class="day">Mon</div>
-  <div class="temp">70°F / 58°F</div>
-  <div class="condition">
-    <img src="images/sunny.jpg" alt="Sunny" class="forecast-icon">
-    Sunny
-  </div>
-  <div class="wind">10 mph</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-<div class="forecast-day">
-  <div class="day">Tue</div>
-  <div class="temp">68°F / 57°F</div>
-  <div class="condition">
-    <img src="images/partly_cloudy.jpeg" alt="Partly Cloudy" class="forecast-icon">
-    Partly Cloudy
-  </div>
-  <div class="wind">12 mph</div>
-</div>
+<body>
 
-<div class="forecast-day">
-  <div class="day">Wed</div>
-  <div class="temp">65°F / 55°F</div>
-  <div class="condition">
-    <img src="images/cloudy.png" alt="Cloudy" class="forecast-icon">
-    Cloudy
-  </div>
-  <div class="wind">8 mph</div>
-</div>
+  <!-- HEADER / LOCATION -->
+  <header>
+    <h1 id="location">San Francisco, CA</h1>
+  </header>
+
+  <!-- CURRENT WEATHER -->
+  <section id="current-weather">
+
+    <div class="temperature">68°F</div>
+
+    <div class="condition">
+      <img src="images/sunny.jpg" alt="Sunny">
+      Sunny
+    </div>
+
+    <div class="details">
+      <div class="wind">
+        <img src="images/arrow.png" alt="Wind Direction" class="wind-arrow">
+        12 mph NW
+      </div>
+
+      <div class="humidity">
+        💧 72%
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FORECAST -->
+  <section id="forecast">
+    <h2>3-Day Forecast</h2>
+
+    <div class="forecast-container">
+
+      <div class="forecast-day">
+        <div class="day">Mon</div>
+        <div class="temp">70°F / 58°F</div>
+        <div class="condition">
+          <img src="images/sunny.jpg" alt="Sunny" class="forecast-icon">
+          Sunny
+        </div>
+        <div class="wind">10 mph</div>
+      </div>
+
+      <div class="forecast-day">
+        <div class="day">Tue</div>
+        <div class="temp">68°F / 57°F</div>
+        <div class="condition">
+          <img src="images/partlycloudy.jpeg" alt="Partly Cloudy" class="forecast-icon">
+          Partly Cloudy
+        </div>
+        <div class="wind">12 mph</div>
+      </div>
+
+      <div class="forecast-day">
+        <div class="day">Wed</div>
+        <div class="temp">65°F / 55°F</div>
+        <div class="condition">
+          <img src="images/cloudy.jpeg" alt="Cloudy" class="forecast-icon">
+          Cloudy
+        </div>
+        <div class="wind">8 mph</div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
