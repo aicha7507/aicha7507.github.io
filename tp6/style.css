@@ -148,6 +148,10 @@ header {
   font-size: 0.9rem;
   margin-bottom: 6px;
 }
+.temperature {
+  color: #ff6b6b;
+}
+
 
 /* Forecast Icons */
 .forecast-icon {
