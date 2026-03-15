@@ -1,63 +1,83 @@
 /*
-   Reset Default Browser Styles
+Reset Default Browser Styles
 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
 /* Page Layout*/
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
 
-    font-family: Arial, Helvetica, sans-serif;
+font-family: Arial, Helvetica, sans-serif;
 
-    /* Soft modern background */
-    background: linear-gradient(135deg, #4b6cb7, #182848);
+background: linear-gradient(135deg, #4b6cb7, #182848);
+}
+
+#gameContainer{
+text-align:center;
 }
 
 /* Gameboard Styling*/
 #gameBoard {
-    background-color: white;
+background-color: white;
 
-    padding: 10px;
-    border-radius: 10px;
+padding: 10px;
+border-radius: 10px;
 
-    /* Subtle visual polish */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-/*Rows (Flex Layout)*/
+/*Rows*/
 .row {
-    display: flex;
+display: flex;
 }
 
-/* Individual Game Spaces
-*/
+/* Individual Game Spaces*/
 .gameSpace {
-    width: 28vw;
-    height: 28vw;
+width: 28vw;
+height: 28vw;
 
-    /* Prevents oversized cells on desktop */
-    max-width: 120px;
-    max-height: 120px;
+max-width: 120px;
+max-height: 120px;
 
-    background-color: #f9f9f9;
+background-color: #f9f9f9;
 
-    margin: 6px;
-    border-radius: 8px;
+margin: 6px;
+border-radius: 8px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+display: flex;
+justify-content: center;
+align-items: center;
 
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: bold;
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: bold;
 
-    color: #182848;
+color: #182848;
+
+cursor: pointer;
+transition: background 0.2s;
 }
 
+.gameSpace:hover{
+background:#e9ecff;
+}
+
+/* Turn display */
+#turnDisplay{
+color:white;
+margin-bottom:20px;
+}
+
+/* Game result message */
+#gameResult{
+margin-top:20px;
+font-size:28px;
+font-weight:bold;
+color:white;
+}

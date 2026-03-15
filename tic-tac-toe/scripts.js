@@ -1,11 +1,105 @@
-// declare the board data for a game, using 3 arrays
-// "-" indicates unmarked, "x" indicates an X mark, "o" indicates an O mark
-let rowA = [ "-", "-", "-" ];
-let rowB = [ "-", "-", "-" ];
-let rowC = [ "-", "-", "-" ];
+// declare the board data for a game
+// "-" indicates empty, "x" indicates X, "o" indicates O
+let rowA = ["-", "-", "-"];
+let rowB = ["-", "-", "-"];
+let rowC = ["-", "-", "-"];
+
+// track whose turn it is
+let currentPlayer = "x";
+
+// track if the game is still active
+let gameActive = true;
+
+
+// get DOM elements
+let spaces = document.querySelectorAll(".gameSpace");
+let gameOutputMsg = document.querySelector("#gameResult span");
+let turnDisplay = document.querySelector("#turnDisplay");
+
+
+// add click event to every game space
+spaces.forEach(space => {
+    space.addEventListener("click", handleMove);
+});
+
+
+function handleMove(event) {
+
+    // stop if game already ended
+    if (!gameActive) {
+        return;
+    }
+
+    let space = event.target;
+
+    // prevent clicking a space twice
+    if (space.textContent !== "") {
+        return;
+    }
+
+    // display mark on board
+    space.textContent = currentPlayer.toUpperCase();
+
+    // determine which row and column this space belongs to
+    let row = space.dataset.row;
+    let col = space.dataset.col;
+
+    // update the correct array
+    if (row === "A") {
+        rowA[col] = currentPlayer;
+    }
+
+    if (row === "B") {
+        rowB[col] = currentPlayer;
+    }
+
+    if (row === "C") {
+        rowC[col] = currentPlayer;
+    }
+
+    // debugging output
+    console.log(rowA, rowB, rowC);
+
+    // check for winner using your function
+    let winState = checkGameboard(rowA, rowB, rowC);
+
+    console.log("Win state:", winState);
+
+    // if X wins
+    if (winState === "x") {
+        gameOutputMsg.innerHTML = "Player X Wins!";
+        gameActive = false;
+        return;
+    }
+
+    // if O wins
+    if (winState === "o") {
+        gameOutputMsg.innerHTML = "Player O Wins!";
+        gameActive = false;
+        return;
+    }
+
+    // check for draw (board full)
+    if (!rowA.includes("-") && !rowB.includes("-") && !rowC.includes("-")) {
+        gameOutputMsg.innerHTML = "It's a Draw!";
+        gameActive = false;
+        return;
+    }
+
+    // switch players
+    if (currentPlayer === "x") {
+        currentPlayer = "o";
+    } else {
+        currentPlayer = "x";
+    }
+
+    // update turn display
+    turnDisplay.innerHTML = "TURN: Player " + currentPlayer.toUpperCase();
+}
 
 
 
+/* YOUR ORIGINAL FUNCTION */
 
 function checkGameboard(a, b, c) {
 
@@ -25,7 +119,7 @@ function checkGameboard(a, b, c) {
     }
   }
 
-  // check diagonal
+  // check diagonals
   if (board[0][0] === board[1][1] && board[1][1] === board[2][2] && board[0][0] !== "-") {
     return board[0][0];
   }
@@ -34,27 +128,6 @@ function checkGameboard(a, b, c) {
     return board[0][2];
   }
 
-  // if no winner
+  // no winner
   return "d";
-}
-
-// get a handle on the DOM element to be updated with the outcome
-let gameOutputMsg = document.querySelector("#gameResult span");
-
-
-// call your function checkGameboard() with the 3 rows
-let winState = checkGameboard(rowA, rowB, rowC);
-
-// test the returned value of the function
-if (winState == "x") { 
-  gameOutputMsg.innerHTML = "X wins";
-  
-} else if (winState == "o") {
-  gameOutputMsg.innerHTML = "O wins";
-  
-} else if (winState == "d") {
-  gameOutputMsg.innerHTML = "draw";
-  
-} else {
-  gameOutputMsg.innerHTML = "unknown";
 }

@@ -1,39 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tic Tac Toe </title>
+<title>Tic Tac Toe</title>
 
-    <!-- external CSS  -->
-    <link rel="stylesheet" href="styles.css"media="all">
+<!-- external CSS -->
+<link rel="stylesheet" href="styles.css" media="all">
 
-    <!--external  javascript-->
-    <script src="scripts.js" defer></script>
+<!-- external javascript -->
+<script src="scripts.js" defer></script>
+
 </head>
+
 <body>
 
-    <div id="gameBoard">
+<div id="gameContainer">
 
-        <div class="row">
-            <div class="gameSpace">O</div>
-            <div class="gameSpace">X</div>
-            <div class="gameSpace"></div>
-        </div>
+<h2 id="turnDisplay">TURN: Player X</h2>
 
-        <div class="row">
-            <div class="gameSpace"></div>
-            <div class="gameSpace">X</div>
-            <div class="gameSpace"></div>
-        </div>
+<div id="gameBoard">
 
-        <div class="row">
-            <div class="gameSpace"></div>
-            <div class="gameSpace">O</div>
-            <div class="gameSpace"></div>
-        </div>
+<div class="row">
+<div class="gameSpace" data-row="A" data-col="0"></div>
+<div class="gameSpace" data-row="A" data-col="1"></div>
+<div class="gameSpace" data-row="A" data-col="2"></div>
+</div>
 
-    </div>
+<div class="row">
+<div class="gameSpace" data-row="B" data-col="0"></div>
+<div class="gameSpace" data-row="B" data-col="1"></div>
+<div class="gameSpace" data-row="B" data-col="2"></div>
+</div>
+
+<div class="row">
+<div class="gameSpace" data-row="C" data-col="0"></div>
+<div class="gameSpace" data-row="C" data-col="1"></div>
+<div class="gameSpace" data-row="C" data-col="2"></div>
+</div>
+
+</div>
+
+<div id="gameResult">
+<span></span>
+</div>
+
+</div>
 
 </body>
+</html>
