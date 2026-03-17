@@ -26,55 +26,35 @@ spaces.forEach(space => {
 function handleMove(event) {
 
     // stop if game already ended
-    if (!gameActive) {
-        return;
-    }
+    if (!gameActive) return;
 
     let space = event.target;
 
     // prevent clicking a space twice
-    if (space.textContent !== "") {
-        return;
-    }
+    if (space.textContent !== "") return;
 
     // display mark on board
     space.textContent = currentPlayer.toUpperCase();
 
     // determine which row and column this space belongs to
     let row = space.dataset.row;
-    let col = space.dataset.col;
+    let col = Number(space.dataset.col); // ✅ FIXED
 
     // update the correct array
-    if (row === "A") {
-        rowA[col] = currentPlayer;
-    }
-
-    if (row === "B") {
-        rowB[col] = currentPlayer;
-    }
-
-    if (row === "C") {
-        rowC[col] = currentPlayer;
-    }
+    if (row === "A") rowA[col] = currentPlayer;
+    if (row === "B") rowB[col] = currentPlayer;
+    if (row === "C") rowC[col] = currentPlayer;
 
     // debugging output
     console.log(rowA, rowB, rowC);
 
     // check for winner using your function
     let winState = checkGameboard(rowA, rowB, rowC);
-
     console.log("Win state:", winState);
 
-    // if X wins
-    if (winState === "x") {
-        gameOutputMsg.innerHTML = "Player X Wins!";
-        gameActive = false;
-        return;
-    }
-
-    // if O wins
-    if (winState === "o") {
-        gameOutputMsg.innerHTML = "Player O Wins!";
+    // check for win
+    if (winState === "x" || winState === "o") {
+        gameOutputMsg.innerHTML = "Player " + winState.toUpperCase() + " Wins!";
         gameActive = false;
         return;
     }
@@ -87,11 +67,7 @@ function handleMove(event) {
     }
 
     // switch players
-    if (currentPlayer === "x") {
-        currentPlayer = "o";
-    } else {
-        currentPlayer = "x";
-    }
+    currentPlayer = (currentPlayer === "x") ? "o" : "x";
 
     // update turn display
     turnDisplay.innerHTML = "TURN: Player " + currentPlayer.toUpperCase();
