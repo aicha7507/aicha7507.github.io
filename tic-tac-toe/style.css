@@ -1,83 +1,84 @@
-/*
-Reset Default Browser Styles
-*/
+/* Reset */
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Page Layout*/
+/* Page Layout */
 body {
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 
-font-family: Arial, Helvetica, sans-serif;
-
-background: linear-gradient(135deg, #4b6cb7, #182848);
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #4b6cb7, #182848);
 }
 
-#gameContainer{
-text-align:center;
-}
-
-/* Gameboard Styling*/
-#gameBoard {
-background-color: white;
-
-padding: 10px;
-border-radius: 10px;
-
-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-}
-
-/*Rows*/
-.row {
-display: flex;
-}
-
-/* Individual Game Spaces*/
-.gameSpace {
-width: 28vw;
-height: 28vw;
-
-max-width: 120px;
-max-height: 120px;
-
-background-color: #f9f9f9;
-
-margin: 6px;
-border-radius: 8px;
-
-display: flex;
-justify-content: center;
-align-items: center;
-
-font-size: clamp(2rem, 4vw, 3rem);
-font-weight: bold;
-
-color: #182848;
-
-cursor: pointer;
-transition: background 0.2s;
-}
-
-.gameSpace:hover{
-background:#e9ecff;
+/* Container */
+#gameContainer {
+    text-align: center;
 }
 
 /* Turn display */
-#turnDisplay{
-color:white;
-margin-bottom:20px;
+#turnDisplay {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-/* Game result message */
-#gameResult{
-margin-top:20px;
-font-size:28px;
-font-weight:bold;
-color:white;
+/* Gameboard */
+#gameBoard {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+
+    display: inline-block; 
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Rows */
+.row {
+    display: flex;
+}
+
+/* Game spaces */
+.gameSpace {
+    width: 100px;      
+    height: 100px;     
+
+    background-color: #f9f9f9;
+
+    margin: 6px;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 40px;
+    font-weight: bold;
+
+    color: #182848;
+
+    cursor: pointer;
+    transition: background 0.2s;
+
+    border: 2px solid black; /* optional for clearer grid */
+}
+
+/* Hover effect */
+.gameSpace:hover {
+    background: #e9ecff;
+}
+
+/* Game result */
+#gameResult {
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
 }
