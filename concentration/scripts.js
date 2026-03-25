@@ -59,7 +59,6 @@ function checkMatch() {
     const img2 = card2.querySelector("img").src;
 
     if (img1 === img2) {
-        // MATCH (with slight delay for smoother UX)
         setTimeout(() => {
             card1.classList.add("matched");
             card2.classList.add("matched");
@@ -72,9 +71,7 @@ function checkMatch() {
 
             resetTurn();
         }, 500);
-
     } else {
-        // NOT MATCH
         setTimeout(() => {
             card1.classList.remove("flipped");
             card2.classList.remove("flipped");

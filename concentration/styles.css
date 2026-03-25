@@ -42,10 +42,9 @@ p {
 .card {
     perspective: 1000px;
     cursor: pointer;
-    transition: transform 0.3s;
 }
 
-/* INNER (FLIP EFFECT) */
+/* INNER */
 .card-inner {
     position: relative;
     width: 100%;
@@ -59,11 +58,10 @@ p {
     transform: rotateY(180deg);
 }
 
-/* MATCHED (fully removed from interaction) */
+/* MATCHED (FINAL FIX — NO BLOCKING) */
 .card.matched {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0);
 }
 
 /* FRONT + BACK */
