@@ -58,9 +58,10 @@ p {
     transform: rotateY(180deg);
 }
 
-/* MATCHED (HIDE CARD) */
 .card.matched {
-    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+
 }
 
 /* FRONT + BACK */
