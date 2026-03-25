@@ -42,6 +42,7 @@ p {
 .card {
     perspective: 1000px;
     cursor: pointer;
+    transition: transform 0.3s;
 }
 
 /* INNER (FLIP EFFECT) */
@@ -53,15 +54,16 @@ p {
     transition: transform 0.6s;
 }
 
-/* FLIPPED STATE */
+/* FLIP */
 .card.flipped .card-inner {
     transform: rotateY(180deg);
 }
 
+/* MATCHED (fully removed from interaction) */
 .card.matched {
     opacity: 0;
     pointer-events: none;
-
+    transform: scale(0);
 }
 
 /* FRONT + BACK */

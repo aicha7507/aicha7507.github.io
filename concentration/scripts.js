@@ -33,7 +33,9 @@ cards.forEach(card => {
 
 function flipCard() {
     if (lockBoard) return;
+    if (this === flippedCards[0]) return;
     if (this.classList.contains("flipped")) return;
+    if (this.classList.contains("matched")) return;
 
     this.classList.add("flipped");
     flippedCards.push(this);
@@ -57,17 +59,19 @@ function checkMatch() {
     const img2 = card2.querySelector("img").src;
 
     if (img1 === img2) {
-        // MATCH
-        card1.classList.add("matched");
-        card2.classList.add("matched");
+        // MATCH (with slight delay for smoother UX)
+        setTimeout(() => {
+            card1.classList.add("matched");
+            card2.classList.add("matched");
 
-        matches++;
+            matches++;
 
-        resetTurn();
+            if (matches === cards.length / 2) {
+                winMessage.style.display = "block";
+            }
 
-        if (matches === cards.length / 2) {
-            winMessage.style.display = "block";
-        }
+            resetTurn();
+        }, 500);
 
     } else {
         // NOT MATCH
