@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Weather App</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<script defer src="scripts.js"></script>
+
+</head>
+
+
+
+<body>
+
+<header>
+
+<h1 id="location">Loading...</h1>
+
+<button id="changeLocationBtn">
+Change location
+</button>
+
+</header>
+
+
+
+<section id="current-weather">
+
+<div id="temperature" class="temperature">
+--°
+</div>
+
+
+
+<div class="condition">
+
+<img id="currentIcon">
+
+<span id="currentCondition">
+Loading...
+</span>
+
+</div>
+
+
+
+<div class="details">
+
+<div class="wind">
+
+<img src="images/arrow.png" class="wind-arrow">
+
+<span id="windSpeed">
+--
+</span>
+
+</div>
+
+
+
+<div class="humidity">
+
+💧 <span id="humidity">--</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section id="forecast">
+
+<h2>3-Day Forecast</h2>
+
+
+
+<div class="forecast-container">
+
+<div class="forecast-day">
+
+<div id="day1Name" class="day">
+--
+</div>
+
+
+
+<div id="day1Temp" class="temp">
+--
+</div>
+
+
+
+<div class="condition">
+
+<img id="day1Icon" class="forecast-icon">
+
+<span id="day1Condition">
+--
+</span>
+
+</div>
+
+
+
+<div id="day1Wind" class="wind">
+--
+</div>
+
+</div>
+
+
+
+<div class="forecast-day">
+
+<div id="day2Name" class="day">
+--
+</div>
+
+
+
+<div id="day2Temp" class="temp">
+--
+</div>
+
+
+
+<div class="condition">
+
+<img id="day2Icon" class="forecast-icon">
+
+<span id="day2Condition">
+--
+</span>
+
+</div>
+
+
+
+<div id="day2Wind" class="wind">
+--
+</div>
+
+</div>
+
+
+
+<div class="forecast-day">
+
+<div id="day3Name" class="day">
+--
+</div>
+
+
+
+<div id="day3Temp" class="temp">
+--
+</div>
+
+
+
+<div class="condition">
+
+<img id="day3Icon" class="forecast-icon">
+
+<span id="day3Condition">
+--
+</span>
+
+</div>
+
+
+
+<div id="day3Wind" class="wind">
+--
+</div>
+
+</div>
+
+
+
+</div>
+
+</section>
+
+
+
+<div id="modal" class="hidden">
+
+<div class="modal-content">
+
+<form id="locationForm">
+
+<h3>Enter city</h3>
+
+
+
+<input
+id="locationInput"
+type="text"
+placeholder="Seattle"
+required
+>
+
+
+
+<button type="submit">
+Get Weather
+</button>
+
+
+
+</form>
+
+</div>
+
+</div>
+
+
+
+</body>
+
+</html>
