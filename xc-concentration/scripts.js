@@ -1,6 +1,5 @@
-
 // =======================
-// SETTINGS (FROM MODAL)
+// START MODAL
 // =======================
 window.onload = function () {
     document.getElementById("startModal").style.display = "flex";
@@ -36,8 +35,6 @@ let player2 = localStorage.getItem("player2") || "Player 2";
 // =======================
 // GAME VARIABLES
 // =======================
-const cards = document.querySelectorAll(".card");
-
 let flippedCards = [];
 let lockBoard = false;
 let turns = 0;
@@ -47,33 +44,69 @@ let currentPlayer = 1;
 let p1Score = 0;
 let p2Score = 0;
 
-// UI elements
 const turnsDisplay = document.getElementById("turns");
+const board = document.querySelector(".gameboard");
 
 // =======================
-// SHUFFLE CARDS
+// IMAGES (MAKE SURE YOU HAVE THESE FILES)
 // =======================
-function shuffleCards() {
-    const board = document.querySelector(".gameboard");
-    const cardArray = Array.from(cards);
+const images = [
+    "images/img1.png",
+    "images/img2.jpeg",
+    "images/img3.jpeg",
+    "images/img4.jpg",
+    "images/img5.jpeg",
+    "images/img6.jpeg",
+    "images/img7.jpg",
+    "images/img8.jpg",
+    "images/img9.jpg",
+    "images/img10.jpg",
+    "images/img11.jpg",
+    "images/img12.jpg"
+];
 
-    cardArray.sort(() => Math.random() - 0.5);
+// =======================
+// BUILD BOARD (CRITICAL PART)
+// =======================
+function createBoard() {
 
-    cardArray.forEach(card => board.appendChild(card));
+    board.innerHTML = "";
+
+    let selectedImages = images.slice(0, pairs);
+
+    let deck = [...selectedImages, ...selectedImages];
+
+    deck.sort(() => Math.random() - 0.5);
+
+    deck.forEach(src => {
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="${src}">
+                </div>
+            </div>
+        `;
+
+        board.appendChild(card);
+
+        card.addEventListener("click", flipCard);
+    });
 }
 
-shuffleCards();
+// MUST RUN THIS
+createBoard();
 
 // =======================
-// CARD CLICK
+// FLIP CARD
 // =======================
-cards.forEach(card => {
-    card.addEventListener("click", flipCard);
-});
-
 function flipCard() {
+
     if (lockBoard) return;
-    if (this === flippedCards[0]) return;
     if (this.classList.contains("flipped")) return;
     if (this.classList.contains("matched")) return;
 
@@ -89,49 +122,49 @@ function flipCard() {
 // CHECK MATCH
 // =======================
 function checkMatch() {
+
     lockBoard = true;
     turns++;
     turnsDisplay.textContent = turns;
 
-    const [card1, card2] = flippedCards;
+    const [c1, c2] = flippedCards;
 
-    const img1 = card1.querySelector("img").src;
-    const img2 = card2.querySelector("img").src;
+    const img1 = c1.querySelector("img").src;
+    const img2 = c2.querySelector("img").src;
 
     if (img1 === img2) {
 
         setTimeout(() => {
-            card1.classList.add("matched");
-            card2.classList.add("matched");
+
+            c1.classList.add("matched");
+            c2.classList.add("matched");
 
             matches++;
 
-            // =======================
-            // SCORE SYSTEM (2 PLAYERS)
-            // =======================
+            // 2 PLAYER SCORE
             if (players === 2) {
-                if (currentPlayer === 1) {
-                    p1Score++;
-                } else {
-                    p2Score++;
-                }
+                if (currentPlayer === 1) p1Score++;
+                else p2Score++;
 
                 currentPlayer = currentPlayer === 1 ? 2 : 1;
+
+                updateScore();
             }
 
-            // WIN CHECK
-            if (matches === cards.length / 2) {
+            if (matches === pairs) {
                 endGame();
             }
 
-            resetTurn();
+            reset();
+
         }, 500);
 
     } else {
+
         setTimeout(() => {
-            card1.classList.remove("flipped");
-            card2.classList.remove("flipped");
-            resetTurn();
+            c1.classList.remove("flipped");
+            c2.classList.remove("flipped");
+            reset();
         }, 1000);
     }
 }
@@ -139,13 +172,21 @@ function checkMatch() {
 // =======================
 // RESET TURN
 // =======================
-function resetTurn() {
+function reset() {
     flippedCards = [];
     lockBoard = false;
 }
 
 // =======================
-// END GAME (WINNER POPUP)
+// SCORE DISPLAY
+// =======================
+function updateScore() {
+    document.getElementById("p1Score").textContent = player1 + ": " + p1Score;
+    document.getElementById("p2Score").textContent = player2 + ": " + p2Score;
+}
+
+// =======================
+// END GAME
 // =======================
 function endGame() {
 
@@ -154,13 +195,9 @@ function endGame() {
     if (players === 1) {
         message = player1 + " wins!";
     } else {
-        if (p1Score > p2Score) {
-            message = player1 + " wins!";
-        } else if (p2Score > p1Score) {
-            message = player2 + " wins!";
-        } else {
-            message = "It's a tie!";
-        }
+        if (p1Score > p2Score) message = player1 + " wins!";
+        else if (p2Score > p1Score) message = player2 + " wins!";
+        else message = "It's a tie!";
     }
 
     document.getElementById("winText").textContent = message;
