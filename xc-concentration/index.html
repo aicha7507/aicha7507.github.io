@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XC-Concentration Game</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css" media="all">
+
+    <!-- JS -->
+    <script src="scripts.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ======================
+         MODAL (START SCREEN)
+    ======================= -->
+    <div id="startModal" class="modal">
+        <div class="modal-content">
+
+            <h2>Game Settings</h2>
+
+            <label>Number of Pairs:</label>
+            <select id="pairCount">
+                <option value="6">6 Pairs</option>
+                <option value="8" selected>8 Pairs</option>
+                <option value="10">10 Pairs</option>
+                <option value="12">12 Pairs</option>
+            </select>
+
+            <br><br>
+
+            <label>Players:</label>
+            <select id="playerCount">
+                <option value="1">1 Player</option>
+                <option value="2">2 Players</option>
+            </select>
+
+            <br><br>
+
+            <input id="player1Name" placeholder="Player 1 Name">
+            <br><br>
+            <input id="player2Name" placeholder="Player 2 Name (optional)">
+
+            <br><br>
+
+            <button onclick="startGame()">Start Game</button>
+
+        </div>
+    </div>
+
+    <!-- ======================
+         GAME UI
+    ======================= -->
+
+    <h1>Memory Game</h1>
+
+    <p>Turns: <span id="turns">0</span></p>
+
+    <!-- SCOREBOARD (for 2 players) -->
+    <div id="scoreBoard">
+        <p id="p1Score"></p>
+        <p id="p2Score"></p>
+    </div>
+
+    <!-- WIN MODAL -->
+    <div id="winModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 id="winText"></h2>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+
+    <!-- ======================
+         GAME BOARD (STATIC CARDS)
+         (kept for your current system)
+    ======================= -->
+    <div class="gameboard">
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img1.png"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img1.png"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img2.jpeg"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img2.jpeg"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img3.jpeg"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img3.jpeg"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img4.jpg"></div>
+        </div></div>
+
+        <div class="card"><div class="card-inner">
+            <div class="card-front"></div>
+            <div class="card-back"><img src="images/img4.jpg"></div>
+        </div></div>
+
+    </div>
+
+</body>
+</html>
