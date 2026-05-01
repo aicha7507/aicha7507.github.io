@@ -1,13 +1,23 @@
+// ================================
+// SMART RECIPE FINDER PROJECT
+// Uses TheMealDB API
+// ================================
+
+// Get elements from HTML
 const form = document.getElementById("searchForm");
 const input = document.getElementById("searchInput");
 const recipesDiv = document.getElementById("recipes");
 const detailsDiv = document.getElementById("recipeDetails");
 
+// Handle form submit (allows Enter key search)
 form.addEventListener("submit", function(event) {
-  event.preventDefault();
+  event.preventDefault(); // prevent page refresh
   searchRecipes();
 });
 
+// ================================
+// SEARCH RECIPES FUNCTION
+// ================================
 async function searchRecipes() {
   let text = input.value.toLowerCase().trim();
 
@@ -19,11 +29,13 @@ async function searchRecipes() {
   recipesDiv.innerHTML = "Loading...";
   detailsDiv.innerHTML = "";
 
+  // split multiple ingredients by comma
   let ingredients = text.split(",");
 
   try {
     let allResults = [];
 
+    // API calls for each ingredient
     for (let i = 0; i < ingredients.length; i++) {
       let ing = ingredients[i].trim();
 
@@ -43,6 +55,7 @@ async function searchRecipes() {
       return;
     }
 
+    // find recipes that match ALL ingredients
     let commonMeals = allResults[0];
 
     for (let i = 1; i < allResults.length; i++) {
@@ -56,7 +69,7 @@ async function searchRecipes() {
     }
 
     if (commonMeals.length === 0) {
-      recipesDiv.innerHTML = "No recipes match all ingredients.";
+      recipesDiv.innerHTML = "No matching recipes found.";
       return;
     }
 
@@ -68,6 +81,9 @@ async function searchRecipes() {
   }
 }
 
+// ================================
+// DISPLAY RECIPES
+// ================================
 function displayRecipes(meals) {
   recipesDiv.innerHTML = "";
 
@@ -86,7 +102,7 @@ function displayRecipes(meals) {
     card.appendChild(img);
     card.appendChild(title);
 
-    // click to get details
+    // click event for details
     card.addEventListener("click", function() {
       getRecipeDetails(meal.idMeal);
     });
@@ -95,6 +111,9 @@ function displayRecipes(meals) {
   }
 }
 
+// ================================
+// GET FULL RECIPE DETAILS
+// ================================
 async function getRecipeDetails(id) {
   detailsDiv.innerHTML = "Loading recipe...";
 
