@@ -1,24 +1,25 @@
-const apiKey ="bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7"
+const apiKey = bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7;
+
+// START
+window.onload = function () {
+  getLocation();
+  loadCities();
+};
 
 // ---------------- GPS ----------------
 
-document.getElementById("changeLocationBtn").onclick = function () {
-  getLocation();
-};
+document.getElementById("changeLocationBtn").onclick = getLocation;
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition, fallback);
+    navigator.geolocation.getCurrentPosition(success, fallback);
   } else {
     getWeatherCity("Seattle");
   }
 }
 
-function showPosition(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-
-  getWeatherCoords(lat, lon);
+function success(position) {
+  getWeatherCoords(position.coords.latitude, position.coords.longitude);
 }
 
 function fallback() {
@@ -28,11 +29,16 @@ function fallback() {
 // ---------------- WEATHER ----------------
 
 function getWeatherCity(city) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`
-  )
+  showLoading();
+
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
+      if (!data || data.cod === "404") {
+        alert("City not found");
+        return;
+      }
+
       displayWeather(data);
       saveCity(city);
       getForecastCity(city);
@@ -40,9 +46,7 @@ function getWeatherCity(city) {
 }
 
 function getWeatherCoords(lat, lon) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
-  )
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
       displayWeather(data);
@@ -50,38 +54,35 @@ function getWeatherCoords(lat, lon) {
     });
 }
 
+function showLoading() {
+  document.getElementById("location").textContent = "Loading...";
+}
+
+// ---------------- DISPLAY ----------------
+
 function displayWeather(data) {
   document.getElementById("location").textContent = data.name;
-  document.getElementById("temperature").textContent =
-    Math.round(data.main.temp) + "°";
-
-  document.getElementById("currentCondition").textContent =
-    data.weather[0].main;
-
+  document.getElementById("temperature").textContent = Math.round(data.main.temp) + "°";
+  document.getElementById("currentCondition").textContent = data.weather[0].main;
   document.getElementById("windSpeed").textContent = data.wind.speed;
   document.getElementById("humidity").textContent = data.main.humidity;
+
+  document.getElementById("currentIcon").src =
+    "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
 }
 
 // ---------------- FORECAST ----------------
 
 function getForecastCity(city) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`
-  )
+  fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
-    .then(data => {
-      showHourly(data.list);
-    });
+    .then(data => showHourly(data.list));
 }
 
 function getForecastCoords(lat, lon) {
-  fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
-  )
+  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
-    .then(data => {
-      showHourly(data.list);
-    });
+    .then(data => showHourly(data.list));
 }
 
 function showHourly(list) {
@@ -91,21 +92,22 @@ function showHourly(list) {
   for (let i = 0; i < 72; i++) {
     if (!list[i]) break;
 
-    let hour = new Date(list[i].dt * 1000).getHours();
+    let date = new Date(list[i].dt * 1000);
 
     let box = document.createElement("div");
     box.className = "hour-card";
 
     box.innerHTML =
-      "<p>" +
-      hour +
-      ":00</p>" +
-      "<p>" +
+      "<strong>" +
+      date.getDate() +
+      "/" +
+      (date.getMonth() + 1) +
+      " " +
+      date.getHours() +
+      ":00</strong><br>" +
       Math.round(list[i].main.temp) +
-      "°</p>" +
-      "<p>" +
-      list[i].weather[0].main +
-      "</p>";
+      "°<br>" +
+      list[i].weather[0].main;
 
     container.appendChild(box);
   }
@@ -117,7 +119,6 @@ function saveCity(city) {
   let cities = JSON.parse(getCookie("cities") || "[]");
 
   cities.unshift(city);
-
   cities = [...new Set(cities)].slice(0, 5);
 
   document.cookie = "cities=" + JSON.stringify(cities);
@@ -128,10 +129,7 @@ function saveCity(city) {
 function getCookie(name) {
   let value = "; " + document.cookie;
   let parts = value.split("; " + name + "=");
-
-  if (parts.length === 2) {
-    return parts.pop().split(";").shift();
-  }
+  if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
 function loadCities() {
@@ -140,23 +138,23 @@ function loadCities() {
   let select = document.getElementById("savedCities");
   select.innerHTML = "";
 
-  for (let i = 0; i < cities.length; i++) {
+  if (cities.length === 0) {
     let option = document.createElement("option");
-    option.value = cities[i];
-    option.textContent = cities[i];
+    option.textContent = "No saved cities";
     select.appendChild(option);
+    return;
   }
+
+  cities.forEach(city => {
+    let option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    select.appendChild(option);
+  });
 }
 
 document.getElementById("savedCities").onchange = function () {
   getWeatherCity(this.value);
 };
 
-document.getElementById("resetBtn").onclick = function () {
-  getLocation();
-};
-
-// ---------------- START ----------------
-
-getLocation();
-loadCities();
+document.getElementById("resetBtn").onclick = getLocation;
