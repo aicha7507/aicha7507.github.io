@@ -1,83 +1,163 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const cards = document.querySelectorAll(".card");
-    const turnsDisplay = document.getElementById("turns");
-    const winMessage = document.getElementById("winMessage");
+let flipped = [];
+let lock = false;
+let turns = 0;
+let matches = 0;
 
-    let flippedCards = [];
-    let lockBoard = false;
-    let turns = 0;
-    let matches = 0;
+let players = [];
+let currentPlayer = 0;
+let totalPairs = 8;
 
-    // shuffle cards
-    function shuffleCards() {
-        const board = document.querySelector(".gameboard");
-        const cardArray = Array.from(cards);
+const turnsDisplay = document.getElementById("turns");
+const winMessage = document.getElementById("winMessage");
+const playerTurn = document.getElementById("playerTurn");
 
-        cardArray.sort(() => Math.random() - 0.5);
+document.getElementById("startBtn").addEventListener("click", startGame);
 
-        cardArray.forEach(card => board.appendChild(card));
+function startGame() {
+
+    totalPairs = parseInt(document.getElementById("pairSelect").value);
+
+    const p1 = document.getElementById("p1").value || "Player 1";
+    const p2 = document.getElementById("p2").value || "Player 2";
+    const count = document.getElementById("playerSelect").value;
+
+    players = [{ name: p1, score: 0 }];
+
+    if (count === "2") {
+        players.push({ name: p2, score: 0 });
     }
 
-    shuffleCards();
+    document.getElementById("startModal").style.display = "none";
 
-    // add click events
-    cards.forEach(card => {
-        card.addEventListener("click", flipCard);
+    generateBoard();
+    updateTurn();
+}
+
+function generateBoard() {
+
+    const board = document.querySelector(".gameboard");
+    board.innerHTML = "";
+
+    let images = [];
+
+    for (let i = 1; i <= totalPairs; i++) {
+        images.push(`img${i}.jpg`);
+        images.push(`img${i}.jpg`);
+    }
+
+    images.sort(() => Math.random() - 0.5);
+
+    images.forEach(img => {
+
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front"></div>
+                <div class="card-back">
+                    <img src="images/${img}">
+                </div>
+            </div>
+        `;
+
+        card.addEventListener("click", flip);
+        board.appendChild(card);
     });
+}
 
-    function flipCard() {
-        if (lockBoard) return;
-        if (this.classList.contains("flipped")) return;
-        if (this.classList.contains("matched")) return;
+function flip() {
 
-        this.classList.add("flipped");
-        flippedCards.push(this);
+    if (lock || this.classList.contains("flipped")) return;
 
-        if (flippedCards.length === 2) {
-            checkMatch();
+    this.classList.add("flipped");
+    flipped.push(this);
+
+    if (flipped.length === 2) {
+        check();
+    }
+}
+
+function check() {
+
+    lock = true;
+    turns++;
+    turnsDisplay.textContent = turns;
+
+    let c1 = flipped[0];
+    let c2 = flipped[1];
+
+    let match = c1.querySelector("img").src === c2.querySelector("img").src;
+
+    if (match) {
+
+        players[currentPlayer].score++;
+        matches++;
+
+        reset();
+
+        if (matches === totalPairs) {
+            endGame();
         }
+
+    } else {
+
+        setTimeout(() => {
+            c1.classList.remove("flipped");
+            c2.classList.remove("flipped");
+
+            if (players.length === 2) {
+                currentPlayer = currentPlayer === 0 ? 1 : 0;
+                updateTurn();
+            }
+
+            reset();
+
+        }, 800);
+    }
+}
+
+function reset() {
+    flipped = [];
+    lock = false;
+}
+
+function updateTurn() {
+    if (players.length === 2) {
+        playerTurn.textContent = "Turn: " + players[currentPlayer].name;
+    }
+}
+
+function endGame() {
+
+    let winner = players[0];
+
+    if (players.length === 2) {
+        winner = players[0].score > players[1].score ? players[0] : players[1];
     }
 
-    function checkMatch() {
-        lockBoard = true;
-        turns++;
-        turnsDisplay.textContent = turns;
+    winMessage.innerHTML = `<h2>${winner.name} Wins! 🎉</h2>`;
+    winMessage.style.display = "block";
 
-        const card1 = flippedCards[0];
-        const card2 = flippedCards[1];
+    saveWin(winner.name);
+}
 
-        const img1 = card1.querySelector("img").src;
-        const img2 = card2.querySelector("img").src;
+/* COOKIES */
+function saveWin(name) {
+    let wins = getCookie(name) || 0;
+    wins++;
+    document.cookie = name + "=" + wins;
+}
 
-        if (img1 === img2) {
-
-            setTimeout(() => {
-                card1.classList.add("matched");
-                card2.classList.add("matched");
-
-                matches++;
-
-                if (matches === cards.length / 2) {
-                    winMessage.style.display = "block";
-                }
-
-                resetTurn();
-            }, 400);
-
-        } else {
-
-            setTimeout(() => {
-                card1.classList.remove("flipped");
-                card2.classList.remove("flipped");
-                resetTurn();
-            }, 900);
-        }
+function getCookie(name) {
+    let cookies = document.cookie.split("; ");
+    for (let c of cookies) {
+        let [k, v] = c.split("=");
+        if (k === name) return parseInt(v);
     }
-
-    function resetTurn() {
-        flippedCards = [];
-        lockBoard = false;
-    }
+    return 0;
+}
 
 });

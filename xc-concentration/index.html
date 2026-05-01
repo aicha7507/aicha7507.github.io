@@ -10,111 +10,50 @@
 
 <body>
 
-    <h1>Memory Game</h1>
+<h1>XC-Concentration Game</h1>
 
-    <!-- SCORE + TURNS -->
-    <div class="info">
-        <p>Turns: <span id="turns">0</span></p>
-    </div>
+<!-- INFO BAR -->
+<div class="info">
+    <p>Turns: <span id="turns">0</span></p>
+    <p id="playerTurn"></p>
+</div>
 
-    <!-- WIN MESSAGE -->
-    <div id="winMessage">
-        <h2>You Win 🎉</h2>
-    </div>
+<!-- WIN MESSAGE -->
+<div id="winMessage"></div>
 
-    <!-- GAME BOARD -->
-    <div class="gameboard">
+<!-- START MODAL -->
+<div id="startModal" class="modal">
+    <div class="modal-box">
 
-        <!-- 8 PAIRS (you can later reduce dynamically) -->
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img1.jpg"></div>
-        </div></div>
+        <h2>Game Setup</h2>
 
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img1.jpg"></div>
-        </div></div>
+        <label>Number of Pairs</label>
+        <select id="pairSelect">
+            <option value="6">6</option>
+            <option value="8" selected>8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+        </select>
 
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img2.jpg"></div>
-        </div></div>
+        <label>Players</label>
+        <select id="playerSelect">
+            <option value="1">1 Player</option>
+            <option value="2">2 Players</option>
+        </select>
 
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img2.jpg"></div>
-        </div></div>
+        <label>Player 1</label>
+        <input id="p1" placeholder="Player 1">
 
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img3.jpg"></div>
-        </div></div>
+        <label>Player 2</label>
+        <input id="p2" placeholder="Player 2">
 
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img3.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img4.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img4.jpg"></div>
-        </div></div>
+        <button id="startBtn">Start Game</button>
 
     </div>
+</div>
 
-</body>
-</html>
-    <!-- GAME BOARD -->
-    <div class="gameboard">
-
-        <!-- 8 PAIRS (you can later reduce dynamically) -->
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img1.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img1.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img2.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img2.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img3.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img3.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img4.jpg"></div>
-        </div></div>
-
-        <div class="card"><div class="card-inner">
-            <div class="card-front"></div>
-            <div class="card-back"><img src="images/img4.jpg"></div>
-        </div></div>
-
-    </div>
+<!-- GAME BOARD -->
+<div class="gameboard"></div>
 
 </body>
 </html>

@@ -1,84 +1,55 @@
-// =======================
-// START MODAL
-// =======================
-window.onload = function () {
-    document.getElementById("startModal").style.display = "flex";
-};
+document.addEventListener("DOMContentLoaded", function () {
 
-function startGame() {
-
-    let pairs = parseInt(document.getElementById("pairCount").value);
-    let players = parseInt(document.getElementById("playerCount").value);
-
-    let player1 = document.getElementById("player1Name").value || "Player 1";
-    let player2 = document.getElementById("player2Name").value || "Player 2";
-
-    localStorage.setItem("pairs", pairs);
-    localStorage.setItem("players", players);
-    localStorage.setItem("player1", player1);
-    localStorage.setItem("player2", player2);
-
-    document.getElementById("startModal").style.display = "none";
-
-    location.reload();
-}
-
-// =======================
-// LOAD SETTINGS
-// =======================
-let pairs = parseInt(localStorage.getItem("pairs")) || 8;
-let players = parseInt(localStorage.getItem("players")) || 1;
-
-let player1 = localStorage.getItem("player1") || "Player 1";
-let player2 = localStorage.getItem("player2") || "Player 2";
-
-// =======================
-// GAME VARIABLES
-// =======================
-let flippedCards = [];
-let lockBoard = false;
+let flipped = [];
+let lock = false;
 let turns = 0;
 let matches = 0;
 
-let currentPlayer = 1;
-let p1Score = 0;
-let p2Score = 0;
+let players = [];
+let currentPlayer = 0;
+let totalPairs = 8;
 
 const turnsDisplay = document.getElementById("turns");
-const board = document.querySelector(".gameboard");
+const winMessage = document.getElementById("winMessage");
+const playerTurn = document.getElementById("playerTurn");
 
-// =======================
-// IMAGES (MAKE SURE YOU HAVE THESE FILES)
-// =======================
-const images = [
-    "images/img1.png",
-    "images/img2.jpeg",
-    "images/img3.jpeg",
-    "images/img4.jpg",
-    "images/img5.jpeg",
-    "images/img6.jpeg",
-    "images/img7.jpg",
-    "images/img8.jpg",
-    "images/img9.jpg",
-    "images/img10.jpg",
-    "images/img11.jpg",
-    "images/img12.jpg"
-];
+document.getElementById("startBtn").addEventListener("click", startGame);
 
-// =======================
-// BUILD BOARD (CRITICAL PART)
-// =======================
-function createBoard() {
+function startGame() {
 
+    totalPairs = parseInt(document.getElementById("pairSelect").value);
+
+    const p1 = document.getElementById("p1").value || "Player 1";
+    const p2 = document.getElementById("p2").value || "Player 2";
+    const count = document.getElementById("playerSelect").value;
+
+    players = [{ name: p1, score: 0 }];
+
+    if (count === "2") {
+        players.push({ name: p2, score: 0 });
+    }
+
+    document.getElementById("startModal").style.display = "none";
+
+    generateBoard();
+    updateTurn();
+}
+
+function generateBoard() {
+
+    const board = document.querySelector(".gameboard");
     board.innerHTML = "";
 
-    let selectedImages = images.slice(0, pairs);
+    let images = [];
 
-    let deck = [...selectedImages, ...selectedImages];
+    for (let i = 1; i <= totalPairs; i++) {
+        images.push(`img${i}.jpg`);
+        images.push(`img${i}.jpg`);
+    }
 
-    deck.sort(() => Math.random() - 0.5);
+    images.sort(() => Math.random() - 0.5);
 
-    deck.forEach(src => {
+    images.forEach(img => {
 
         const card = document.createElement("div");
         card.classList.add("card");
@@ -87,119 +58,106 @@ function createBoard() {
             <div class="card-inner">
                 <div class="card-front"></div>
                 <div class="card-back">
-                    <img src="${src}">
+                    <img src="images/${img}">
                 </div>
             </div>
         `;
 
+        card.addEventListener("click", flip);
         board.appendChild(card);
-
-        card.addEventListener("click", flipCard);
     });
 }
 
-// MUST RUN THIS
-createBoard();
+function flip() {
 
-// =======================
-// FLIP CARD
-// =======================
-function flipCard() {
-
-    if (lockBoard) return;
-    if (this.classList.contains("flipped")) return;
-    if (this.classList.contains("matched")) return;
+    if (lock || this.classList.contains("flipped")) return;
 
     this.classList.add("flipped");
-    flippedCards.push(this);
+    flipped.push(this);
 
-    if (flippedCards.length === 2) {
-        checkMatch();
+    if (flipped.length === 2) {
+        check();
     }
 }
 
-// =======================
-// CHECK MATCH
-// =======================
-function checkMatch() {
+function check() {
 
-    lockBoard = true;
+    lock = true;
     turns++;
     turnsDisplay.textContent = turns;
 
-    const [c1, c2] = flippedCards;
+    let c1 = flipped[0];
+    let c2 = flipped[1];
 
-    const img1 = c1.querySelector("img").src;
-    const img2 = c2.querySelector("img").src;
+    let match = c1.querySelector("img").src === c2.querySelector("img").src;
 
-    if (img1 === img2) {
+    if (match) {
 
-        setTimeout(() => {
+        players[currentPlayer].score++;
+        matches++;
 
-            c1.classList.add("matched");
-            c2.classList.add("matched");
+        reset();
 
-            matches++;
-
-            // 2 PLAYER SCORE
-            if (players === 2) {
-                if (currentPlayer === 1) p1Score++;
-                else p2Score++;
-
-                currentPlayer = currentPlayer === 1 ? 2 : 1;
-
-                updateScore();
-            }
-
-            if (matches === pairs) {
-                endGame();
-            }
-
-            reset();
-
-        }, 500);
+        if (matches === totalPairs) {
+            endGame();
+        }
 
     } else {
 
         setTimeout(() => {
             c1.classList.remove("flipped");
             c2.classList.remove("flipped");
+
+            if (players.length === 2) {
+                currentPlayer = currentPlayer === 0 ? 1 : 0;
+                updateTurn();
+            }
+
             reset();
-        }, 1000);
+
+        }, 800);
     }
 }
 
-// =======================
-// RESET TURN
-// =======================
 function reset() {
-    flippedCards = [];
-    lockBoard = false;
+    flipped = [];
+    lock = false;
 }
 
-// =======================
-// SCORE DISPLAY
-// =======================
-function updateScore() {
-    document.getElementById("p1Score").textContent = player1 + ": " + p1Score;
-    document.getElementById("p2Score").textContent = player2 + ": " + p2Score;
+function updateTurn() {
+    if (players.length === 2) {
+        playerTurn.textContent = "Turn: " + players[currentPlayer].name;
+    }
 }
 
-// =======================
-// END GAME
-// =======================
 function endGame() {
 
-    let message = "";
+    let winner = players[0];
 
-    if (players === 1) {
-        message = player1 + " wins!";
-    } else {
-        if (p1Score > p2Score) message = player1 + " wins!";
-        else if (p2Score > p1Score) message = player2 + " wins!";
-        else message = "It's a tie!";
+    if (players.length === 2) {
+        winner = players[0].score > players[1].score ? players[0] : players[1];
     }
 
-    document.getElementById("winText").textContent = message;
-    document.getElementById("winModal").style.display = "flex";
+    winMessage.innerHTML = `<h2>${winner.name} Wins! 🎉</h2>`;
+    winMessage.style.display = "block";
+
+    saveWin(winner.name);
 }
+
+/* COOKIES */
+function saveWin(name) {
+    let wins = getCookie(name) || 0;
+    wins++;
+    document.cookie = name + "=" + wins;
+}
+
+function getCookie(name) {
+    let cookies = document.cookie.split("; ");
+    for (let c of cookies) {
+        let [k, v] = c.split("=");
+        if (k === name) return parseInt(v);
+    }
+    return 0;
+}
+
+});
