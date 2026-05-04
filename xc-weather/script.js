@@ -1,4 +1,4 @@
-const apiKey = bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7;
+const apiKey = "bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7";
 
 // START
 window.onload = function () {
@@ -35,13 +35,16 @@ function getWeatherCity(city) {
     .then(res => res.json())
     .then(data => {
       if (!data || data.cod === "404") {
-        alert("City not found");
+        document.getElementById("location").textContent = "City not found";
         return;
       }
 
       displayWeather(data);
       saveCity(city);
       getForecastCity(city);
+    })
+    .catch(() => {
+      document.getElementById("location").textContent = "Error loading data";
     });
 }
 
@@ -51,6 +54,9 @@ function getWeatherCoords(lat, lon) {
     .then(data => {
       displayWeather(data);
       getForecastCoords(lat, lon);
+    })
+    .catch(() => {
+      document.getElementById("location").textContent = "Error loading data";
     });
 }
 
@@ -61,6 +67,8 @@ function showLoading() {
 // ---------------- DISPLAY ----------------
 
 function displayWeather(data) {
+  if (!data || !data.weather) return;
+
   document.getElementById("location").textContent = data.name;
   document.getElementById("temperature").textContent = Math.round(data.main.temp) + "°";
   document.getElementById("currentCondition").textContent = data.weather[0].main;
@@ -89,25 +97,19 @@ function showHourly(list) {
   let container = document.getElementById("hourlyContainer");
   container.innerHTML = "";
 
-  for (let i = 0; i < 72; i++) {
-    if (!list[i]) break;
+  if (!list) return;
 
+  for (let i = 0; i < Math.min(list.length, 24); i++) {
     let date = new Date(list[i].dt * 1000);
 
     let box = document.createElement("div");
     box.className = "hour-card";
 
-    box.innerHTML =
-      "<strong>" +
-      date.getDate() +
-      "/" +
-      (date.getMonth() + 1) +
-      " " +
-      date.getHours() +
-      ":00</strong><br>" +
-      Math.round(list[i].main.temp) +
-      "°<br>" +
-      list[i].weather[0].main;
+    box.innerHTML = `
+      <strong>${date.getDate()}/${date.getMonth() + 1} ${date.getHours()}:00</strong><br>
+      ${Math.round(list[i].main.temp)}°<br>
+      ${list[i].weather[0].main}
+    `;
 
     container.appendChild(box);
   }
@@ -121,7 +123,7 @@ function saveCity(city) {
   cities.unshift(city);
   cities = [...new Set(cities)].slice(0, 5);
 
-  document.cookie = "cities=" + JSON.stringify(cities);
+  document.cookie = "cities=" + JSON.stringify(cities) + "; path=/; max-age=2592000";
 
   loadCities();
 }
