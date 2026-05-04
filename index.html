@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aïcha Tandia | Portfolio</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+        }
+
+        /* NAVBAR */
+        nav {
+            background-color: #2c3e50;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            color: white;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        /* CONTAINER */
+        main {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        /* PROJECT GRID */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .project-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .project-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* OTHER SECTIONS */
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#extras">More</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+    <h1>Aïcha Tandia</h1>
+    <p>Student Portfolio | Web Development</p>
+</header>
+
+<main>
+
+    <!-- ABOUT -->
+    <section id="about" class="card">
+        <h2>About Me</h2>
+        <p>
+            I am a student learning web development and data analysis. This portfolio
+            showcases my projects and progress throughout the course.
+        </p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2>My Projects</h2>
+
+        <div class="projects">
+
+            <div class="project-card">
+                <h3>Tiny Project 1–3</h3>
+                <p>Basic HTML and GitHub Pages setup.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Tiny Project 4</h3>
+                <p>Page structure and layout improvements.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Tiny Project 5</h3>
+                <p>CSS styling and design enhancements.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Major Project</h3>
+                <p>Final project combining all course skills.</p>
+                <a href="#">View Project</a>
+            </div>
+
+        </div>
+
+        <p style="margin-top:15px;">
+            <a href="https://github.com/aicha7507/aicha7507.github.io">View My GitHub Repository</a>
+        </p>
+    </section>
+
+    <!-- EXTRA CONTENT -->
+    <section id="extras">
+
+        <div class="card">
+            <h2>Where did you go last vacation?</h2>
+            <p>My last vacation was in Mali, where I spent time with my family and experienced the culture.</p>
+        </div>
+
+        <div class="card">
+            <h2>Really Boring Fact About Me</h2>
+            <p>I like to stay home.</p>
+        </div>
+
+        <div class="card">
+            <h2>Modern Slang I Wish Would Go Away</h2>
+            <p><strong>Slang:</strong> it's giving</p>
+            <p><strong>Why:</strong> It's overused and not specific.</p>
+        </div>
+
+        <div class="card">
+            <h2>Article I Liked</h2>
+            <a href="https://www.helpguide.org/mental-health/wellbeing/social-media-and-mental-health">
+                Social Media and Mental Health
+            </a>
+        </div>
+
+        <div class="card">
+            <h2>Cool Picture</h2>
+            <img src="images/flower-photo.jpg" alt="Flower photo">
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 Aïcha Tandia</p>
+</footer>
+
+</body>
+</html>
