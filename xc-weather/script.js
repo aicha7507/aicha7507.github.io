@@ -1,15 +1,18 @@
 const apiKey = "bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7";
 
-// START
-window.onload = function () {
+// ---------------- START ----------------
+window.addEventListener("DOMContentLoaded", function () {
   getLocation();
   loadCities();
-};
+
+  document.getElementById("changeLocationBtn").onclick = getLocation;
+  document.getElementById("savedCities").onchange = function () {
+    getWeatherCity(this.value);
+  };
+  document.getElementById("resetBtn").onclick = getLocation;
+});
 
 // ---------------- GPS ----------------
-
-document.getElementById("changeLocationBtn").onclick = getLocation;
-
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, fallback);
@@ -27,14 +30,13 @@ function fallback() {
 }
 
 // ---------------- WEATHER ----------------
-
 function getWeatherCity(city) {
   showLoading();
 
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
-      if (!data || data.cod === "404") {
+      if (!data || data.cod != 200) {
         document.getElementById("location").textContent = "City not found";
         return;
       }
@@ -52,6 +54,8 @@ function getWeatherCoords(lat, lon) {
   fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
     .then(data => {
+      if (!data) return;
+
       displayWeather(data);
       getForecastCoords(lat, lon);
     })
@@ -65,10 +69,7 @@ function showLoading() {
 }
 
 // ---------------- DISPLAY ----------------
-
 function displayWeather(data) {
-  if (!data || !data.weather) return;
-
   document.getElementById("location").textContent = data.name;
   document.getElementById("temperature").textContent = Math.round(data.main.temp) + "°";
   document.getElementById("currentCondition").textContent = data.weather[0].main;
@@ -80,43 +81,46 @@ function displayWeather(data) {
 }
 
 // ---------------- FORECAST ----------------
-
 function getForecastCity(city) {
   fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
-    .then(data => showHourly(data.list));
+    .then(data => {
+      if (data && data.list) {
+        showHourly(data.list);
+      }
+    });
 }
 
 function getForecastCoords(lat, lon) {
   fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`)
     .then(res => res.json())
-    .then(data => showHourly(data.list));
+    .then(data => {
+      if (data && data.list) {
+        showHourly(data.list);
+      }
+    });
 }
 
 function showHourly(list) {
   let container = document.getElementById("hourlyContainer");
   container.innerHTML = "";
 
-  if (!list) return;
-
-  for (let i = 0; i < Math.min(list.length, 24); i++) {
+  for (let i = 0; i < 24; i++) {
     let date = new Date(list[i].dt * 1000);
 
     let box = document.createElement("div");
     box.className = "hour-card";
 
-    box.innerHTML = `
-      <strong>${date.getDate()}/${date.getMonth() + 1} ${date.getHours()}:00</strong><br>
-      ${Math.round(list[i].main.temp)}°<br>
-      ${list[i].weather[0].main}
-    `;
+    box.innerHTML =
+      date.getDate() + "/" + (date.getMonth() + 1) + " " + date.getHours() + ":00<br>" +
+      Math.round(list[i].main.temp) + "°<br>" +
+      list[i].weather[0].main;
 
     container.appendChild(box);
   }
 }
 
-// ---------------- COOKIES ----------------
-
+// ---------------- SAVED CITIES ----------------
 function saveCity(city) {
   let cities = JSON.parse(getCookie("cities") || "[]");
 
@@ -154,9 +158,3 @@ function loadCities() {
     select.appendChild(option);
   });
 }
-
-document.getElementById("savedCities").onchange = function () {
-  getWeatherCity(this.value);
-};
-
-document.getElementById("resetBtn").onclick = getLocation;
