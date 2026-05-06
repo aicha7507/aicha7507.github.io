@@ -1,4 +1,4 @@
-const apiKey = "YOUR_API_KEY_HERE";
+const apiKey = "bc7f0f837dmshee0922f03837470p171b82jsn61739a5e72c7";
 
 /* ---------------- GPS ---------------- */
 
